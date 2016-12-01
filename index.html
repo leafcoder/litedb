@@ -1,44 +1,25 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en-us">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta charset="UTF-8">
     <title>Litedb by leafcoder</title>
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/github-dark.css">
-    <script src="//cdn.bootcss.com/jquery/1.7.1/jquery.min.js"></script>
-    <script src="javascripts/respond.js"></script>
-    <!--[if lt IE 9]>
-      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-    <!--[if lt IE 8]>
-    <link rel="stylesheet" href="stylesheets/ie.css">
-    <![endif]-->
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
   <body>
-      <div id="header">
-        <nav>
-          <li class="fork"><a href="https://github.com/leafcoder/litedb">View On GitHub</a></li>
-          <li class="downloads"><a href="https://github.com/leafcoder/litedb/zipball/master">ZIP</a></li>
-          <li class="downloads"><a href="https://github.com/leafcoder/litedb/tarball/master">TAR</a></li>
-          <li class="title">DOWNLOADS</li>
-        </nav>
-      </div><!-- end header -->
+    <section class="page-header">
+      <h1 class="project-name">Litedb</h1>
+      <h2 class="project-tagline">基于 sqlite3 实现的简单对象数据库</h2>
+      <a href="https://github.com/leafcoder/litedb" class="btn">View on GitHub</a>
+      <a href="https://github.com/leafcoder/litedb/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/leafcoder/litedb/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
 
-    <div class="wrapper">
-
-      <section>
-        <div id="title">
-          <h1>Litedb</h1>
-          <p>基于 sqlite3 实现的简单对象数据库</p>
-          <hr>
-          <span class="credits left">Project maintained by <a href="https://github.com/leafcoder">leafcoder</a></span>
-          <span class="credits right">Hosted on GitHub Pages &mdash; Theme by <a href="https://twitter.com/michigangraham">mattgraham</a></span>
-        </div>
-
-        <h1>
+    <section class="main-content">
+      <h1>
 <a id="litedb" class="anchor" href="#litedb" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>litedb</h1>
 
 <p>基于 sqlite3 实现的简单对象数据库</p>
@@ -51,78 +32,106 @@
 </code></pre>
 
 <h2>
-<a id="2-获取所有表名" class="anchor" href="#2-%E8%8E%B7%E5%8F%96%E6%89%80%E6%9C%89%E8%A1%A8%E5%90%8D" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2. 获取所有表名</h2>
+<a id="2-开始事务" class="anchor" href="#2-%E5%BC%80%E5%A7%8B%E4%BA%8B%E5%8A%A1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>2. 开始事务</h2>
 
-<pre><code>&gt;&gt;&gt; from litedb import LiteDB
-&gt;&gt;&gt; litedb = LiteDB('sqlite.db')
-&gt;&gt;&gt; print litedb.tables
+<pre><code>&gt;&gt;&gt; txn = litedb.begin()
+&gt;&gt;&gt; ......
+</code></pre>
+
+<h2>
+<a id="3-获取所有表名" class="anchor" href="#3-%E8%8E%B7%E5%8F%96%E6%89%80%E6%9C%89%E8%A1%A8%E5%90%8D" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3. 获取所有表名</h2>
+
+<pre><code>&gt;&gt;&gt; txn = litedb.begin()
+&gt;&gt;&gt; print txn.tables
 ('table_1', 'table_2')
 </code></pre>
 
 <h2>
-<a id="3-新建表获取表" class="anchor" href="#3-%E6%96%B0%E5%BB%BA%E8%A1%A8%E8%8E%B7%E5%8F%96%E8%A1%A8" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>3. 新建表、获取表</h2>
+<a id="4-新建表获取表" class="anchor" href="#4-%E6%96%B0%E5%BB%BA%E8%A1%A8%E8%8E%B7%E5%8F%96%E8%A1%A8" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>4. 新建表、获取表</h2>
 
-<pre><code>&gt;&gt;&gt; from litedb import LiteDB
-&gt;&gt;&gt; litedb = LiteDB('sqlite.db')
-&gt;&gt;&gt; table_name = 'table_1'
-&gt;&gt;&gt; table = litedb.table(table_name)
+<pre><code>&gt;&gt;&gt; txn = litedb.begin()
+&gt;&gt;&gt; table = txn.table('table_1')
 &gt;&gt;&gt; print table.name
+&gt;&gt;&gt; txn.commit()
+</code></pre>
+
+<h2>
+<a id="5-删除表" class="anchor" href="#5-%E5%88%A0%E9%99%A4%E8%A1%A8" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>5. 删除表</h2>
+
+<pre><code>&gt;&gt;&gt; txn = litedb.begin()
+&gt;&gt;&gt; litedb.delete('table_1')
 &gt;&gt;&gt; litedb.commit()
 </code></pre>
 
 <h2>
-<a id="4-删除表" class="anchor" href="#4-%E5%88%A0%E9%99%A4%E8%A1%A8" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>4. 删除表</h2>
+<a id="6-新建行" class="anchor" href="#6-%E6%96%B0%E5%BB%BA%E8%A1%8C" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>6. 新建行</h2>
 
-<pre><code>&gt;&gt;&gt; from litedb import LiteDB
-&gt;&gt;&gt; litedb = LiteDB('sqlite.db')
+<pre><code>&gt;&gt;&gt; txn = litedb.begin()
 &gt;&gt;&gt; table_name = 'table_1'
-&gt;&gt;&gt; litedb.delete(table_name)
-&gt;&gt;&gt; litedb.commit()
-</code></pre>
-
-<h2>
-<a id="5-新建行" class="anchor" href="#5-%E6%96%B0%E5%BB%BA%E8%A1%8C" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>5. 新建行</h2>
-
-<pre><code>&gt;&gt;&gt; from litedb import LiteDB
-&gt;&gt;&gt; litedb = LiteDB('sqlite.db')
-&gt;&gt;&gt; table_name = 'table_1'
-&gt;&gt;&gt; table = litedb.table(table_name, auto_increment=True)
-&gt;&gt;&gt; row = table.row(id=1, data={'name': 'litedb'}) # 指定 ID
-&gt;&gt;&gt; row = table.row(data={'name': 'litedb'}) # 不指定 ID，只允许自增表
-&gt;&gt;&gt; table = litedb.table(table_name, auto_increment=False)
-&gt;&gt;&gt; row = table.row(id='str_id', data={'name': 'litedb'})
-&gt;&gt;&gt; litedb.commit()
+&gt;&gt;&gt; table = txn.table(table_name)
+&gt;&gt;&gt; row = table.insert(None)
+&gt;&gt;&gt; row = table.insert(1)
+&gt;&gt;&gt; row = table.insert(2.5)
+&gt;&gt;&gt; row = table.insert('text')
+&gt;&gt;&gt; ...
+&gt;&gt;&gt; row = table.insert({'name': 'litedb'})
+&gt;&gt;&gt; txn.commit()
 </code></pre>
 
 <h2>
 <a id="6-获取行" class="anchor" href="#6-%E8%8E%B7%E5%8F%96%E8%A1%8C" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>6. 获取行</h2>
 
-<pre><code>&gt;&gt;&gt; from litedb import LiteDB
-&gt;&gt;&gt; litedb = LiteDB('sqlite.db')
-&gt;&gt;&gt; table_name = 'table_1'
-&gt;&gt;&gt; table = litedb.table(table_name, auto_increment=True)
+<pre><code>&gt;&gt;&gt; txn = litedb.begin()
+&gt;&gt;&gt; table = txn.table('table_1')
 &gt;&gt;&gt; row = table.row(1)
-&gt;&gt;&gt; row = table.row(id=1)
 </code></pre>
 
 <h2>
-<a id="7-删除行" class="anchor" href="#7-%E5%88%A0%E9%99%A4%E8%A1%8C" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>7. 删除行</h2>
+<a id="7-更新行数据" class="anchor" href="#7-%E6%9B%B4%E6%96%B0%E8%A1%8C%E6%95%B0%E6%8D%AE" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>7. 更新行数据</h2>
 
-<pre><code>&gt;&gt;&gt; from litedb import LiteDB
-&gt;&gt;&gt; litedb = LiteDB('sqlite.db')
+<pre><code>&gt;&gt;&gt; txn = litedb.begin()
 &gt;&gt;&gt; table_name = 'table_1'
-&gt;&gt;&gt; table = litedb.table(table_name, auto_increment=True)
+&gt;&gt;&gt; table = txn.table(table_name)
+&gt;&gt;&gt; table.update(1, None)
+&gt;&gt;&gt; table.update(2, 1)
+&gt;&gt;&gt; table.update(3, 2.5)
+&gt;&gt;&gt; table.update(4, 'text')
+&gt;&gt;&gt; ...
+&gt;&gt;&gt; table.update(9, {'name': 'litedb'})
+&gt;&gt;&gt; txn.commit()
+</code></pre>
+
+<h2>
+<a id="8-删除行" class="anchor" href="#8-%E5%88%A0%E9%99%A4%E8%A1%8C" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>8. 删除行</h2>
+
+<pre><code>&gt;&gt;&gt; txn = litedb.begin()
+&gt;&gt;&gt; table = txn.table('table_1')
 &gt;&gt;&gt; table.delete(1)
-&gt;&gt;&gt; litedb.commit()
+&gt;&gt;&gt; txn.commit()
 </code></pre>
 
 <h2>
-<a id="8-搜索数据-todo" class="anchor" href="#8-%E6%90%9C%E7%B4%A2%E6%95%B0%E6%8D%AE-todo" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>8. 搜索数据 TODO</h2>
+<a id="9-提交事务" class="anchor" href="#9-%E6%8F%90%E4%BA%A4%E4%BA%8B%E5%8A%A1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>9. 提交事务</h2>
 
-<pre><code>&gt;&gt;&gt; from litedb import LiteDB
-&gt;&gt;&gt; litedb = LiteDB('sqlite.db')
+<pre><code>&gt;&gt;&gt; txn = litedb.begin()
+&gt;&gt;&gt; ... # write something
+&gt;&gt;&gt; txn.commit()
+</code></pre>
+
+<h2>
+<a id="10-回滚事务" class="anchor" href="#10-%E5%9B%9E%E6%BB%9A%E4%BA%8B%E5%8A%A1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>10. 回滚事务</h2>
+
+<pre><code>&gt;&gt;&gt; txn = litedb.begin()
+&gt;&gt;&gt; ... # write something
+&gt;&gt;&gt; txn.rollback()
+</code></pre>
+
+<h2>
+<a id="11-搜索数据-todo" class="anchor" href="#11-%E6%90%9C%E7%B4%A2%E6%95%B0%E6%8D%AE-todo" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>11. 搜索数据 TODO</h2>
+
+<pre><code>&gt;&gt;&gt; txn = litedb.begin()
 &gt;&gt;&gt; table_name = 'table_1'
-&gt;&gt;&gt; table = litedb.table(table_name, auto_increment=True)
+&gt;&gt;&gt; table = txn.table(table_name)
 &gt;&gt;&gt; table.search(
     AND={
         'name': 'leo',
@@ -140,10 +149,15 @@
     ]
 )
 </code></pre>
-      </section>
 
-    </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-    
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/leafcoder/litedb">Litedb</a> is maintained by <a href="https://github.com/leafcoder">leafcoder</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
   </body>
 </html>
