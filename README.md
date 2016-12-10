@@ -26,8 +26,8 @@
 ## 5. 删除表
 
     >>> txn = litedb.begin()
-    >>> litedb.delete('table_1')
-    >>> litedb.commit()
+    >>> txn.delete('table_1')
+    >>> txn.commit()
 
 ## 6. 新建行
 
