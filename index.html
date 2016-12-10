@@ -71,8 +71,8 @@
 <a id="5-删除表" class="anchor" href="#5-%E5%88%A0%E9%99%A4%E8%A1%A8" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>5. 删除表</h2>
 
 <pre><code>&gt;&gt;&gt; txn = litedb.begin()
-&gt;&gt;&gt; litedb.delete('table_1')
-&gt;&gt;&gt; litedb.commit()
+&gt;&gt;&gt; txn.delete('table_1')
+&gt;&gt;&gt; txn.commit()
 </code></pre>
 
 <h2>
